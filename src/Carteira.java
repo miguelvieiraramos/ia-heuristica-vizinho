@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Carteira {
 	public Acao[] acoes;
@@ -14,20 +15,22 @@ public class Carteira {
 	}
 
 	private void setAcoesVizinhas(Acao[] acoes) {
-		Acao acaoAux;
-		for (int i = 0; i < acoes.length; i++) {
-			acaoAux = acoes[i];
-			for (int j = i + 1; j < acoes.length; j++) {
-				Acao[] acoesAux = deepCopyAcoes();
-				acoesAux[i].setAplicacao(acoes[j].getAplicacao());
-				acoesAux[j].setAplicacao(acaoAux.getAplicacao());
-				acoesVizinhas.add(acoesAux);
+		if(acoes != null) {
+			Acao acaoAux;
+			for (int i = 0; i < acoes.length; i++) {
+				acaoAux = acoes[i];
+				for (int j = i + 1; j < acoes.length; j++) {
+					Acao[] acoesAux = deepCopyAcoes();
+					acoesAux[i].setAplicacao(acoes[j].getAplicacao());
+					acoesAux[j].setAplicacao(acaoAux.getAplicacao());
+					acoesVizinhas.add(acoesAux);
+				}
 			}
 		}
 	}
 	
 	public Acao[] getMelhor() {
-		double melhorRetorno = 0;
+		double melhorRetorno = this.getRetornoCarteira();
 		Acao[] melhoresAcoes = null;
 		for(Acao[] acoes : this.acoesVizinhas) {
 			double retorno = 0;
